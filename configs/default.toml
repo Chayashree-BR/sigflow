@@ -1,0 +1,3 @@
+max_payload = 8388608
+max_frames = 100000
+log_level = "INFO"

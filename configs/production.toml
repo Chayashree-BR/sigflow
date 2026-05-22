@@ -1,0 +1,3 @@
+max_payload = 16777216
+max_frames = 250000
+log_level = "WARNING"
