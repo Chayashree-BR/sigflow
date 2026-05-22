@@ -1,6 +1,6 @@
 import struct
 from sigflow.core.types import Frame
-from sigflow.parsers.binary import MAGIC, HEADER
+from sigflow.parsers.binary import MAGIC
 from sigflow.validators.checksum import crc32
 
 
