@@ -1,4 +1,4 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 
 class WorkerPool:
@@ -7,5 +7,4 @@ class WorkerPool:
 
     def map(self, fn, items):
         with ThreadPoolExecutor(max_workers=self.workers) as pool:
-            futures = [pool.submit(fn, item) for item in items]
-            return [future.result() for future in as_completed(futures)]
+            return list(pool.map(fn, items))
