@@ -3,14 +3,11 @@ import pytest
 from sigflow.core.context import ExecutionContext
 from sigflow.core.exceptions import ParseError
 from sigflow.parsers.binary import BinaryFrameParser
-<<<<<<< HEAD
-=======
 from sigflow.parsers.tlv import TLVParser
 from sigflow.parsers.legacy import LegacyParser
 
 TLV = struct.Struct(">HH")
 LEGACY = struct.Struct(">HI")
->>>>>>> 0d5af8c (Add regression tests for max_frames handling)
 
 
 def test_binary_parser_reads_frames(sample_stream):
@@ -31,9 +28,6 @@ def test_binary_parser_reports_truncation(sample_stream):
 
 def test_invalid_magic_raises():
     with pytest.raises(ParseError):
-<<<<<<< HEAD
-        BinaryFrameParser().parse(b"NOPE" + b"0" * 32, ExecutionContext({}))
-=======
         BinaryFrameParser().parse(
             b"NOPE" + b"0" * 32,
             ExecutionContext({})
@@ -72,4 +66,13 @@ def test_legacy_parser_stops_at_max_frames():
 
     assert len(frames) == 2
     assert any(d.code == "frame-limit" for d in ctx.diagnostics)
->>>>>>> 0d5af8c (Add regression tests for max_frames handling)
+
+
+def test_tlv_truncated_value_is_recoverable():
+   
+    data = b"\x00\x01" + b"\x00\x04" + b"AB"
+    ctx = ExecutionContext({})
+    frames = TLVParser().parse(data, ctx)
+
+    assert frames == []
+    assert any(d.code == "tlv-truncated" for d in ctx.diagnostics)
